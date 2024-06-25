@@ -1,7 +1,12 @@
+using Ksiegarnia.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<KsiegarniaDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DeafultConnection")));
 
 var app = builder.Build();
 
@@ -18,6 +23,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Books}/{action=Index}/{id?}");
 
 app.Run();
