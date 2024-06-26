@@ -7,6 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\Admin\**" />
+    <Compile Remove="Controllers\Company\**" />
+    <Compile Remove="Controllers\Customer\**" />
+    <Content Remove="Controllers\Admin\**" />
+    <Content Remove="Controllers\Company\**" />
+    <Content Remove="Controllers\Customer\**" />
+    <EmbeddedResource Remove="Controllers\Admin\**" />
+    <EmbeddedResource Remove="Controllers\Company\**" />
+    <EmbeddedResource Remove="Controllers\Customer\**" />
+    <None Remove="Controllers\Admin\**" />
+    <None Remove="Controllers\Company\**" />
+    <None Remove="Controllers\Customer\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
       <PrivateAssets>all</PrivateAssets>
@@ -22,12 +37,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.6.2" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.6.2" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.6.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\Admin\" />
-    <Folder Include="Controllers\Company\" />
-    <Folder Include="Controllers\Customer\" />
   </ItemGroup>
 
 </Project>
