@@ -1,5 +1,7 @@
 using Ksiegarnia.Data;
+using Ksiegarnia.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<KsiegarniaDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DeafultConnection")));
+
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<KsiegarniaDbContext>();
+
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -19,6 +26,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -29,5 +37,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=CustomerBooks}/{action=Index}/{id?}");
 
+app.MapRazorPages();
 
 app.Run();
