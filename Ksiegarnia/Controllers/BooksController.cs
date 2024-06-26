@@ -1,10 +1,12 @@
 ﻿using Ksiegarnia.Data;
 using Ksiegarnia.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ksiegarnia.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class BooksController : Controller
     {
         private readonly KsiegarniaDbContext _context;
