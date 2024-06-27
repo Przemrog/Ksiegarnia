@@ -46,6 +46,14 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Category)
         </dd>
+        <form asp-action="AddToCart" asp-controller="Cart" method="post">
+            <input type="hidden" name="bookId" value="@Model.Id" />
+            <div class="form-group">
+                <label for="count">Count</label>
+                <input type="number" name="count" value="1" min="1" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Add to Cart</button>
+        </form>
     </dl>
 </div>
 <div>
