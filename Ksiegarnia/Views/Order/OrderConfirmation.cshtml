@@ -1,0 +1,36 @@
+﻿@model Ksiegarnia.Models.Order
+
+@{
+    ViewData["Title"] = "Order Confirmation";
+}
+
+<h1>Order Confirmation</h1>
+
+<p>Purchase sucessfull!</p>
+
+<h2>Order Details</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Count</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderItems)
+        {
+            <tr>
+                <td>@item.Book.Title</td>
+                <td>@item.Count</td>
+                <td>@item.UnitPrice</td>
+                <td>@(item.UnitPrice * item.Count)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="form-group">
+    <label>Total Price: </label>
+    <span>@Model.SumPrice</span>
+</div>

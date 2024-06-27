@@ -27,6 +27,9 @@ namespace Ksiegarnia.Controllers
                 .ThenInclude(ci => ci.Book)
                 .FirstOrDefaultAsync(c => c.UserId == user.Id);
 
+            var totalPrice = cart.Items.Sum(ci => ci.Book.Price * ci.Count);
+            ViewBag.TotalPrice = totalPrice;
+
             return View(cart);
         }
 

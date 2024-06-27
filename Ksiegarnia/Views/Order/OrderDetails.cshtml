@@ -1,0 +1,39 @@
+﻿@model Ksiegarnia.Models.Order
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<h1>Order Details</h1>
+
+<div>
+    <h2>Order ID: @Model.Id</h2>
+    <p>User: @Model.User.UserName</p>
+    <p>Order Date: @Model.OrderDate.ToString("g")</p>
+    <p>Shipping Address: @Model.ShippingAddress</p>
+    <p>Shipping City: @Model.ShippingCity</p>
+    <p>Total Price: @Model.SumPrice</p>
+
+    <h3>Order Items</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Count</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderItems)
+            {
+                <tr>
+                    <td>@item.Book.Title</td>
+                    <td>@item.Count</td>
+                    <td>@item.UnitPrice</td>
+                    <td>@(item.UnitPrice * item.Count)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

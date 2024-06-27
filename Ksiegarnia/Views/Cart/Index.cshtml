@@ -38,6 +38,15 @@
             }
         </tbody>
     </table>
+
+    <div class="form-group">
+        <label>Total Price: </label>
+        <span>@ViewBag.TotalPrice</span>
+    </div>
+
+    <form asp-action="Checkout" asp-controller="Order" method="get">
+        <button type="submit" class="btn btn-primary">Checkout</button>
+    </form>
 }
 else
 {
