@@ -16,9 +16,17 @@ namespace Ksiegarnia.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Books.ToListAsync());
+            var books = from b in _context.Books
+                        select b;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                books = books.Where(b => b.Title.Contains(searchString));
+            }
+
+            return View(await books.ToListAsync());
         }
 
         public async Task<IActionResult> Details(int? id)
