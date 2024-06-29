@@ -4,58 +4,43 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Book Details</h1>
+<hr />
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card mb-4">
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">Title</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Title)</dd>
 
-<div>
-    <h4>Book</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Author)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Author)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Publisher)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Publisher)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Category)
-        </dd>
-        <form asp-action="AddToCart" asp-controller="Cart" method="post">
-            <input type="hidden" name="bookId" value="@Model.Id" />
-            <div class="form-group">
-                <label for="count">Count</label>
-                <input type="number" name="count" value="1" min="1" class="form-control" />
+                    <dt class="col-sm-3">Description</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Description)</dd>
+
+                    <dt class="col-sm-3">Author</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Author)</dd>
+
+                    <dt class="col-sm-3">Publisher</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Publisher)</dd>
+
+                    <dt class="col-sm-3">Price</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Price)</dd>
+
+                    <dt class="col-sm-3">Category</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Category)</dd>
+                </dl>
             </div>
-            <button type="submit" class="btn btn-primary">Add to Cart</button>
-        </form>
-    </dl>
-</div>
-<div>
-    <a asp-action="Index">Back to List</a>
+            <div class="card-footer text-right">
+                <form asp-action="AddToCart" asp-controller="Cart" method="post" class="d-inline">
+                    <input type="hidden" name="bookId" value="@Model.Id" />
+                    <div class="form-group d-inline">
+                        <label for="count" class="sr-only">Count</label>
+                        <input type="number" name="count" value="1" min="1" class="form-control d-inline" style="width: 100px;" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                </form>
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    </div>
 </div>

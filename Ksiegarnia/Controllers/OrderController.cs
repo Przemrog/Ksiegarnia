@@ -131,5 +131,34 @@ namespace Ksiegarnia.Controllers
             return View(order);
         }
 
+        public async Task<IActionResult> UserOrders()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var orders = await _context.Orders
+                .Where(o => o.UserId == user.Id)
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Book)
+                .ToListAsync();
+
+            return View(orders);
+        }
+
+        public async Task<IActionResult> UserOrdersDetails(int id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Book)
+                .Include(o => o.User)
+                .FirstOrDefaultAsync(o => o.Id == id && o.UserId == user.Id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return View(order);
+        }
+
     }
 }
