@@ -20,7 +20,7 @@ namespace Ksiegarnia.Controllers
 
         public async Task<IActionResult> Index(string searchString)
         {
-            var books = from b in _context.Books.Include(b => b.Category).Include(b => b.Author)
+            var books = from b in _context.Books.Include(b => b.Category).Include(b => b.Author).Include(b => b.Publisher)
                         select b;
 
             if (!string.IsNullOrEmpty(searchString))
@@ -38,7 +38,7 @@ namespace Ksiegarnia.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books.Include(b => b.Category).Include(b => b.Author)
+            var book = await _context.Books.Include(b => b.Category).Include(b => b.Author).Include(b => b.Publisher)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (book == null)
             {
@@ -64,6 +64,13 @@ namespace Ksiegarnia.Controllers
                     {
                         Value = a.Id.ToString(),
                         Text = a.Name
+                    })
+                    .ToList(),
+                Publishers = _context.Publishers
+                    .Select(p => new SelectListItem
+                    {
+                        Value = p.Id.ToString(),
+                        Text = p.Name
                     })
                     .ToList()
             };
@@ -98,6 +105,7 @@ namespace Ksiegarnia.Controllers
         {
             ModelState.Remove(nameof(viewModel.Categories));
             ModelState.Remove(nameof(viewModel.Authors));
+            ModelState.Remove(nameof(viewModel.Publishers));
             if (ModelState.IsValid)
             {
                 var book = new Book
@@ -105,7 +113,7 @@ namespace Ksiegarnia.Controllers
                     Title = viewModel.Title,
                     Description = viewModel.Description,
                     AuthorId = viewModel.AuthorId,
-                    Publisher = viewModel.Publisher,
+                    PublisherId = viewModel.PublisherId,
                     Price = viewModel.Price,
                     CategoryId = viewModel.CategoryId
                 };
@@ -168,7 +176,14 @@ namespace Ksiegarnia.Controllers
                         Text = a.Name
                     })
                     .ToList(),
-                Publisher = book.Publisher,
+                PublisherId = book.PublisherId,
+                Publishers = _context.Publishers
+                    .Select(p => new SelectListItem
+                    {
+                        Value = p.Id.ToString(),
+                        Text = p.Name
+                    })
+                    .ToList(),
                 Price = book.Price,
                 CategoryId = book.CategoryId,
                 Categories = _context.Categories
@@ -235,6 +250,7 @@ namespace Ksiegarnia.Controllers
             }
             ModelState.Remove(nameof(viewModel.Authors));
             ModelState.Remove(nameof(viewModel.Categories));
+            ModelState.Remove(nameof(viewModel.Publishers));
 
             if (ModelState.IsValid)
             {
@@ -244,7 +260,7 @@ namespace Ksiegarnia.Controllers
                     Title = viewModel.Title,
                     Description = viewModel.Description,
                     AuthorId = viewModel.AuthorId,
-                    Publisher = viewModel.Publisher,
+                    PublisherId = viewModel.PublisherId,
                     Price = viewModel.Price,
                     CategoryId = viewModel.CategoryId
                 };

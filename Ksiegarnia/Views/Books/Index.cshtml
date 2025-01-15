@@ -32,7 +32,7 @@
                 Author
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Publisher)
+                Publisher
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Price)
@@ -57,7 +57,7 @@
                     @item.Author?.Name
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Publisher)
+                    @item.Publisher?.Name
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)

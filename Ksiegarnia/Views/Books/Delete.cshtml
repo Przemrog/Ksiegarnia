@@ -29,10 +29,10 @@
                 @Model.Author?.Name ?? "No Author"
             </dd>
             <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Publisher)
+                Publisher
             </dt>
             <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Publisher)
+                @Model.Publisher?.Name ?? "No Publisher"
             </dd>
             <dt class="col-sm-4">
                 @Html.DisplayNameFor(model => model.Price)

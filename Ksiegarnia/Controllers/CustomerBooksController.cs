@@ -18,7 +18,7 @@ namespace Ksiegarnia.Controllers
         // GET: CustomerBooks
         public async Task<IActionResult> Index(string searchString)
         {
-            var books = from b in _context.Books.Include(b => b.Category).Include(b => b.Author)
+            var books = from b in _context.Books.Include(b => b.Category).Include(b => b.Author).Include(b => b.Publisher)
                         select b;
 
             if (!string.IsNullOrEmpty(searchString))
@@ -37,7 +37,7 @@ namespace Ksiegarnia.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books.Include(b => b.Category).Include(b => b.Author)
+            var book = await _context.Books.Include(b => b.Category).Include(b => b.Author).Include(b => b.Publisher)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (book == null)
             {
