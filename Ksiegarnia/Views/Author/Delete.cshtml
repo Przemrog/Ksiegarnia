@@ -1,6 +1,6 @@
-﻿@model Ksiegarnia.Models.Category
+﻿@model Ksiegarnia.Models.Author
 
-<h2>Delete Category</h2>
+<h2>Delete Author</h2>
 
 <h4>Are you sure you want to delete this?</h4>
 <div>
@@ -11,7 +11,7 @@
     </dl>
 </div>
 
-<form asp-action="Delete" method="post">
+<form asp-action="DeleteConfirmed" method="post">
     <input type="hidden" asp-for="Id" />
     <button type="submit" class="btn btn-danger">Delete</button> |
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>

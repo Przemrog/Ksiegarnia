@@ -22,10 +22,10 @@
                 @Html.DisplayFor(model => model.Description)
             </dd>
             <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Author)
+                Author
             </dt>
             <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Author)
+                @Model.Author?.Name
             </dd>
             <dt class="col-sm-4">
                 @Html.DisplayNameFor(model => model.Publisher)

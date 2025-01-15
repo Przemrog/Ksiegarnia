@@ -10,12 +10,13 @@ namespace Ksiegarnia.Models.ViewModels
         [Required]
         public string Title { get; set; }
         public string Description { get; set; }
-        public string Author { get; set; }
+        [Required]
+        public int AuthorId { get; set; }
+        public IEnumerable<SelectListItem> Authors { get; set; }
         public string Publisher { get; set; }
         public double Price { get; set; }
         [Required]
         public int CategoryId { get; set; }
-        [BindNever]
         public IEnumerable<SelectListItem> Categories { get; set; }
     }
 

@@ -20,7 +20,7 @@ namespace Ksiegarnia.Controllers
 
         public async Task<IActionResult> Index(string searchString)
         {
-            var books = from b in _context.Books.Include(b => b.Category)
+            var books = from b in _context.Books.Include(b => b.Category).Include(b => b.Author)
                         select b;
 
             if (!string.IsNullOrEmpty(searchString))
@@ -38,7 +38,7 @@ namespace Ksiegarnia.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books.Include(b => b.Category)
+            var book = await _context.Books.Include(b => b.Category).Include(b => b.Author)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (book == null)
             {
@@ -50,9 +50,6 @@ namespace Ksiegarnia.Controllers
 
         public IActionResult Create()
         {
-            //OLD CODE
-            //ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
-            //return View();
             var viewModel = new BookViewModel
             {
                 Categories = _context.Categories
@@ -60,6 +57,13 @@ namespace Ksiegarnia.Controllers
                     {
                         Value = c.Id.ToString(),
                         Text = c.Name
+                    })
+                    .ToList(),
+                Authors = _context.Authors
+                    .Select(a => new SelectListItem
+                    {
+                        Value = a.Id.ToString(),
+                        Text = a.Name
                     })
                     .ToList()
             };
@@ -92,13 +96,15 @@ namespace Ksiegarnia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(BookViewModel viewModel)
         {
+            ModelState.Remove(nameof(viewModel.Categories));
+            ModelState.Remove(nameof(viewModel.Authors));
             if (ModelState.IsValid)
             {
                 var book = new Book
                 {
                     Title = viewModel.Title,
                     Description = viewModel.Description,
-                    Author = viewModel.Author,
+                    AuthorId = viewModel.AuthorId,
                     Publisher = viewModel.Publisher,
                     Price = viewModel.Price,
                     CategoryId = viewModel.CategoryId
@@ -108,15 +114,13 @@ namespace Ksiegarnia.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            // Repopulate Categories if validation fails
-            viewModel.Categories = _context.Categories
-                .Select(c => new SelectListItem
-                {
-                    Value = c.Id.ToString(),
-                    Text = c.Name
-                })
-                .ToList();
+            //viewModel.Categories = _context.Categories
+            //    .Select(c => new SelectListItem
+            //    {
+            //        Value = c.Id.ToString(),
+            //        Text = c.Name
+            //    })
+            //    .ToList();
 
             return View(viewModel);
         }
@@ -156,7 +160,14 @@ namespace Ksiegarnia.Controllers
                 Id = book.Id,
                 Title = book.Title,
                 Description = book.Description,
-                Author = book.Author,
+                AuthorId = book.AuthorId,
+                Authors = _context.Authors
+                    .Select(a => new SelectListItem
+                    {
+                        Value = a.Id.ToString(),
+                        Text = a.Name
+                    })
+                    .ToList(),
                 Publisher = book.Publisher,
                 Price = book.Price,
                 CategoryId = book.CategoryId,
@@ -222,6 +233,7 @@ namespace Ksiegarnia.Controllers
             {
                 return NotFound();
             }
+            ModelState.Remove(nameof(viewModel.Authors));
             ModelState.Remove(nameof(viewModel.Categories));
 
             if (ModelState.IsValid)
@@ -231,7 +243,7 @@ namespace Ksiegarnia.Controllers
                     Id = viewModel.Id,
                     Title = viewModel.Title,
                     Description = viewModel.Description,
-                    Author = viewModel.Author,
+                    AuthorId = viewModel.AuthorId,
                     Publisher = viewModel.Publisher,
                     Price = viewModel.Price,
                     CategoryId = viewModel.CategoryId
@@ -256,13 +268,13 @@ namespace Ksiegarnia.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            viewModel.Categories = _context.Categories
-                .Select(c => new SelectListItem
-                {
-                    Value = c.Id.ToString(),
-                    Text = c.Name
-                })
-                .ToList();
+            //viewModel.Categories = _context.Categories
+            //    .Select(c => new SelectListItem
+            //    {
+            //        Value = c.Id.ToString(),
+            //        Text = c.Name
+            //    })
+            //    .ToList();
 
             return View(viewModel);
         }

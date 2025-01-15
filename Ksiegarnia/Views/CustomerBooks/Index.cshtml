@@ -38,7 +38,7 @@
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.Title)</td>
                         <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Author)</td>
+                        <td>@item.Author?.Name</td>
                         <td>@Html.DisplayFor(modelItem => item.Publisher)</td>
                         <td>@Html.DisplayFor(modelItem => item.Price)</td>
                         <td>@item.Category?.Name</td>

@@ -10,12 +10,13 @@ namespace Ksiegarnia.Models
         [Required]
         public string Title { get; set; }
         public string Description { get; set; }
-        public string Author { get; set; }
+        [Required]
+        public int AuthorId { get; set; }
+        public Author Author { get; set; }
         public string Publisher { get; set; }
         public double Price { get; set; }
         [Required]
         public int CategoryId { get; set; }
-        [BindNever]
         public Category Category { get; set; }
     }
 }

@@ -18,7 +18,7 @@
                     <dd class="col-sm-9">@Html.DisplayFor(model => model.Description)</dd>
 
                     <dt class="col-sm-3">Author</dt>
-                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Author)</dd>
+                    <dd class="col-sm-9">@Model.Author?.Name</dd>
 
                     <dt class="col-sm-3">Publisher</dt>
                     <dd class="col-sm-9">@Html.DisplayFor(model => model.Publisher)</dd>
