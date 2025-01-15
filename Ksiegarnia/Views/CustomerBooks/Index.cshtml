@@ -41,7 +41,7 @@
                         <td>@Html.DisplayFor(modelItem => item.Author)</td>
                         <td>@Html.DisplayFor(modelItem => item.Publisher)</td>
                         <td>@Html.DisplayFor(modelItem => item.Price)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Category)</td>
+                        <td>@item.Category?.Name</td>
                         <td>
                             <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
                         </td>

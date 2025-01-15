@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Ksiegarnia.Models
+namespace Ksiegarnia.Models.ViewModels
 {
-    public class Book
+    public class BookViewModel
     {
         public int Id { get; set; }
         [Required]
@@ -16,6 +16,7 @@ namespace Ksiegarnia.Models
         [Required]
         public int CategoryId { get; set; }
         [BindNever]
-        public Category Category { get; set; }
+        public IEnumerable<SelectListItem> Categories { get; set; }
     }
+
 }

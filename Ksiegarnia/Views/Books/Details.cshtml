@@ -40,10 +40,10 @@
                 @Html.DisplayFor(model => model.Price)
             </dd>
             <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Category)
+                Category
             </dt>
             <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Category)
+                @Model.Category?.Name
             </dd>
         </dl>
         <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
