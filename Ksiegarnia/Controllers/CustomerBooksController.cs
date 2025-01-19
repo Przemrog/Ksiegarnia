@@ -16,18 +16,26 @@ namespace Ksiegarnia.Controllers
         }
 
         // GET: CustomerBooks
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, int? categoryId)
         {
-            var books = from b in _context.Books.Include(b => b.Category).Include(b => b.Author).Include(b => b.Publisher)
-                        select b;
+            var categories = await _context.Categories.ToListAsync();
+            ViewData["Categories"] = categories;
+
+            var books = _context.Books.Include(b => b.Category).Include(b => b.Author).Include(b => b.Publisher).AsQueryable();
 
             if (!string.IsNullOrEmpty(searchString))
             {
                 books = books.Where(b => b.Title.Contains(searchString));
             }
 
+            if (categoryId.HasValue)
+            {
+                books = books.Where(b => b.CategoryId == categoryId.Value);
+            }
+
             return View(await books.ToListAsync());
         }
+
 
         // GET: CustomerBooks/Details/5
         public async Task<IActionResult> Details(int? id)

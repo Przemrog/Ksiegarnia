@@ -4,6 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
+@* 
 <h1>Book Details</h1>
 <hr />
 <div class="row">
@@ -42,5 +43,24 @@
                 <a asp-action="Index" class="btn btn-secondary">Back to List</a>
             </div>
         </div>
+    </div>
+</div> *@
+
+<div class="row">
+    <div class="col-md-6">
+        <h2 class="text-primary">@Model.Title</h2>
+        <p><strong>Description:</strong> @Model.Description</p>
+        <p><strong>Author:</strong> @Model.Author?.Name</p>
+        <p><strong>Publisher:</strong> @Model.Publisher?.Name</p>
+        <p><strong>Category:</strong> @Model.Category?.Name</p>
+    </div>
+    <div class="col-md-6 text-center">
+        <h4 class="text-success">Price: $@Model.Price</h4>
+        <form asp-action="AddToCart" asp-controller="Cart" method="post">
+            <input type="hidden" name="bookId" value="@Model.Id" />
+            <input type="number" name="count" value="1" min="1" class="form-control w-50 mx-auto mb-2" />
+            <button type="submit" class="btn btn-primary">Add to Cart</button>
+        </form>
+        <a asp-action="Index" class="btn btn-secondary mt-3">Back to List</a>
     </div>
 </div>
