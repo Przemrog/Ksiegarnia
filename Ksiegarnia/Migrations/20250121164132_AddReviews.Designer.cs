@@ -3,6 +3,7 @@ using System;
 using Ksiegarnia.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ksiegarnia.Migrations
 {
     [DbContext(typeof(KsiegarniaDbContext))]
-    partial class KsiegarniaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250121164132_AddReviews")]
+    partial class AddReviews
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -93,7 +96,7 @@ namespace Ksiegarnia.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors", (string)null);
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("Ksiegarnia.Models.Book", b =>
@@ -130,7 +133,7 @@ namespace Ksiegarnia.Migrations
 
                     b.HasIndex("PublisherId");
 
-                    b.ToTable("Books", (string)null);
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("Ksiegarnia.Models.Cart", b =>
@@ -147,7 +150,7 @@ namespace Ksiegarnia.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Carts", (string)null);
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("Ksiegarnia.Models.CartItem", b =>
@@ -171,7 +174,7 @@ namespace Ksiegarnia.Migrations
 
                     b.HasIndex("CartId");
 
-                    b.ToTable("CartItems", (string)null);
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("Ksiegarnia.Models.Category", b =>
@@ -186,7 +189,7 @@ namespace Ksiegarnia.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Ksiegarnia.Models.Order", b =>
@@ -217,7 +220,7 @@ namespace Ksiegarnia.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Ksiegarnia.Models.OrderItem", b =>
@@ -244,7 +247,7 @@ namespace Ksiegarnia.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrdersItems", (string)null);
+                    b.ToTable("OrdersItems");
                 });
 
             modelBuilder.Entity("Ksiegarnia.Models.Publisher", b =>
@@ -259,7 +262,7 @@ namespace Ksiegarnia.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Publishers", (string)null);
+                    b.ToTable("Publishers");
                 });
 
             modelBuilder.Entity("Ksiegarnia.Models.Review", b =>
@@ -284,7 +287,7 @@ namespace Ksiegarnia.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

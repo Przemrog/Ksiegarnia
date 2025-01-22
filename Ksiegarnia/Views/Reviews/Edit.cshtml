@@ -1,0 +1,22 @@
+﻿@model Ksiegarnia.Models.Review
+
+@{
+    ViewData["Title"] = "Edit Review";
+}
+
+<h2>Edit Review</h2>
+
+<div>
+    <h4>Book: @Model.Book.Title</h4>
+</div>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Rating" class="control-label"></label>
+        <input asp-for="Rating" class="form-control" type="number" step="0.5" min="0.5" max="5" />
+        <span asp-validation-for="Rating" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Details" asp-controller="CustomerBooks" asp-route-id="@Model.BookId" class="btn btn-secondary">Cancel</a>
+</form>

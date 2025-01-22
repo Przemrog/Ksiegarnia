@@ -4,48 +4,6 @@
     ViewData["Title"] = "Details";
 }
 
-@* 
-<h1>Book Details</h1>
-<hr />
-<div class="row">
-    <div class="col-md-8 offset-md-2">
-        <div class="card mb-4">
-            <div class="card-body">
-                <dl class="row">
-                    <dt class="col-sm-3">Title</dt>
-                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Title)</dd>
-
-                    <dt class="col-sm-3">Description</dt>
-                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Description)</dd>
-
-                    <dt class="col-sm-3">Author</dt>
-                    <dd class="col-sm-9">@Model.Author?.Name</dd>
-
-                    <dt class="col-sm-3">Publisher</dt>
-                    <dd class="col-sm-9">@Model.Publisher?.Name</dd>
-
-                    <dt class="col-sm-3">Price</dt>
-                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Price)</dd>
-
-                    <dt class="col-sm-3">Category</dt>
-                    <dd class="col-sm-9">@Model.Category?.Name</dd>
-                </dl>
-            </div>
-            <div class="card-footer text-right">
-                <form asp-action="AddToCart" asp-controller="Cart" method="post" class="d-inline">
-                    <input type="hidden" name="bookId" value="@Model.Id" />
-                    <div class="form-group d-inline">
-                        <label for="count" class="sr-only">Count</label>
-                        <input type="number" name="count" value="1" min="1" class="form-control d-inline" style="width: 100px;" />
-                    </div>
-                    <button type="submit" class="btn btn-primary">Add to Cart</button>
-                </form>
-                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-            </div>
-        </div>
-    </div>
-</div> *@
-
 <div class="row">
     <div class="col-md-6">
         <h2 class="text-primary">@Model.Title</h2>
@@ -62,5 +20,51 @@
             <button type="submit" class="btn btn-primary">Add to Cart</button>
         </form>
         <a asp-action="Index" class="btn btn-secondary mt-3">Back to List</a>
+    </div>
+</div>
+
+<hr />
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <h3>Reviews</h3>
+        <p>Average Rating: @ViewData["AverageRating"] / 5</p>
+        <p>Total Reviews: @ViewData["ReviewCount"]</p>
+
+        @if ((int)ViewData["ReviewCount"] > 0)
+        {
+            <ul class="list-group">
+                @foreach (var review in Model.Reviews)
+                {
+                    <li class="list-group-item">
+                        <strong>User:</strong> @review.User?.UserName <br />
+                        <strong>Rating:</strong> @review.Rating / 5
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No reviews yet.</p>
+        }
+
+        @{
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var userReview = Model.Reviews?.FirstOrDefault(r => r.UserId == userId);
+        }
+
+        <div>
+            <h3>Reviews</h3>
+            @if (userReview != null)
+            {
+                <p>Your Rating: @userReview.Rating</p>
+                <a asp-action="Edit" asp-controller="Reviews" asp-route-id="@userReview.Id" class="btn btn-warning">Edit Review</a>
+            }
+            else
+            {
+                <a asp-action="Create" asp-controller="Reviews" asp-route-bookId="@Model.Id" class="btn btn-primary">Add Review</a>
+            }
+        </div>
+
     </div>
 </div>

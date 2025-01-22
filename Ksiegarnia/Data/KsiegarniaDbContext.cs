@@ -20,5 +20,7 @@ namespace Ksiegarnia.Data
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrdersItems { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+
     }
 }

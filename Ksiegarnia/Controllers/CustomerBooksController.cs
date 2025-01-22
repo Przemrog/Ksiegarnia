@@ -45,12 +45,15 @@ namespace Ksiegarnia.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books.Include(b => b.Category).Include(b => b.Author).Include(b => b.Publisher)
+            var book = await _context.Books.Include(b => b.Category).Include(b => b.Author).Include(b => b.Publisher).Include(b => b.Reviews).ThenInclude(r => r.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (book == null)
             {
                 return NotFound();
             }
+
+            ViewData["AverageRating"] = book.Reviews.Any() ? book.Reviews.Average(r => r.Rating) : 0;
+            ViewData["ReviewCount"] = book.Reviews.Count;
 
             return View(book);
         }
