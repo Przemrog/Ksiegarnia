@@ -16,12 +16,15 @@ namespace Ksiegarnia.Controllers
         }
 
         // GET: CustomerBooks
-        public async Task<IActionResult> Index(string searchString, int? categoryId)
+        public async Task<IActionResult> Index(string searchString, int? categoryId, int? tagId)
         {
             var categories = await _context.Categories.ToListAsync();
             ViewData["Categories"] = categories;
 
-            var books = _context.Books.Include(b => b.Category).Include(b => b.Author).Include(b => b.Publisher).AsQueryable();
+            var tags = await _context.Tags.ToListAsync();
+            ViewData["Tags"] = tags;
+
+            var books = _context.Books.Include(b => b.Category).Include(b => b.Author).Include(b => b.Publisher).Include(b => b.BookTags).ThenInclude(bt => bt.Tag).AsQueryable();
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -31,6 +34,11 @@ namespace Ksiegarnia.Controllers
             if (categoryId.HasValue)
             {
                 books = books.Where(b => b.CategoryId == categoryId.Value);
+            }
+
+            if (tagId.HasValue)
+            {
+                books = books.Where(b => b.BookTags.Any(bt => bt.TagId == tagId.Value));
             }
 
             return View(await books.ToListAsync());
@@ -45,7 +53,7 @@ namespace Ksiegarnia.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books.Include(b => b.Category).Include(b => b.Author).Include(b => b.Publisher).Include(b => b.Reviews).ThenInclude(r => r.User)
+            var book = await _context.Books.Include(b => b.Category).Include(b => b.Author).Include(b => b.Publisher).Include(b => b.Reviews).ThenInclude(r => r.User).Include(b => b.BookTags).ThenInclude(bt => bt.Tag)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (book == null)
             {

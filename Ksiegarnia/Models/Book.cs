@@ -21,5 +21,7 @@ namespace Ksiegarnia.Models
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public ICollection<Review> Reviews { get; set; }
+        public ICollection<BookTag> BookTags { get; set; }
+
     }
 }

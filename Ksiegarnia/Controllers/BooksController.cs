@@ -72,32 +72,17 @@ namespace Ksiegarnia.Controllers
                         Value = p.Id.ToString(),
                         Text = p.Name
                     })
+                    .ToList(),
+                Tags = _context.Tags
+                    .Select(t => new SelectListItem
+                    {
+                        Value = t.Id.ToString(),
+                        Text = t.Name
+                    })
                     .ToList()
             };
             return View(viewModel);
         }
-
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,Title,Description,Author,Publisher,Price,CategoryId")] Book book)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(book);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    else
-        //    {
-        //        foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-        //        {
-        //            Console.WriteLine(error.ErrorMessage);
-        //        }
-        //    }
-        //    ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", book.CategoryId);
-        //    return View(book);
-        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -106,6 +91,7 @@ namespace Ksiegarnia.Controllers
             ModelState.Remove(nameof(viewModel.Categories));
             ModelState.Remove(nameof(viewModel.Authors));
             ModelState.Remove(nameof(viewModel.Publishers));
+            ModelState.Remove(nameof(viewModel.Tags));
             if (ModelState.IsValid)
             {
                 var book = new Book
@@ -115,40 +101,17 @@ namespace Ksiegarnia.Controllers
                     AuthorId = viewModel.AuthorId,
                     PublisherId = viewModel.PublisherId,
                     Price = viewModel.Price,
-                    CategoryId = viewModel.CategoryId
+                    CategoryId = viewModel.CategoryId,
+                    BookTags = viewModel.SelectedTagIds.Select(tagId => new BookTag { TagId = tagId }).ToList()
                 };
 
                 _context.Add(book);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            //viewModel.Categories = _context.Categories
-            //    .Select(c => new SelectListItem
-            //    {
-            //        Value = c.Id.ToString(),
-            //        Text = c.Name
-            //    })
-            //    .ToList();
 
             return View(viewModel);
         }
-
-
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var book = await _context.Books.FindAsync(id);
-        //    if (book == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", book.CategoryId);
-        //    return View(book);
-        //}
 
         public async Task<IActionResult> Edit(int? id)
         {
@@ -157,7 +120,7 @@ namespace Ksiegarnia.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books.FindAsync(id);
+            var book = await _context.Books.Include(b => b.BookTags).FirstOrDefaultAsync(b => b.Id == id);
             if (book == null)
             {
                 return NotFound();
@@ -192,53 +155,19 @@ namespace Ksiegarnia.Controllers
                         Value = c.Id.ToString(),
                         Text = c.Name
                     })
+                    .ToList(),
+                SelectedTagIds = book.BookTags.Select(bt => bt.TagId).ToList(),
+                Tags = _context.Tags
+                    .Select(t => new SelectListItem
+                    {
+                        Value = t.Id.ToString(),
+                        Text = t.Name
+                    })
                     .ToList()
             };
 
             return View(viewModel);
         }
-
-
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Author,Publisher,Price,CategoryId")] Book book)
-        //{
-        //    if (id != book.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(book);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!BookExists(book.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    else
-        //    {
-        //        foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-        //        {
-        //            Console.WriteLine(error.ErrorMessage);
-        //        }
-        //    }
-        //    ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", book.CategoryId);
-        //    return View(book);
-        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -251,19 +180,25 @@ namespace Ksiegarnia.Controllers
             ModelState.Remove(nameof(viewModel.Authors));
             ModelState.Remove(nameof(viewModel.Categories));
             ModelState.Remove(nameof(viewModel.Publishers));
+            ModelState.Remove(nameof(viewModel.Tags));
 
             if (ModelState.IsValid)
             {
-                var book = new Book
+                var book = await _context.Books.Include(b => b.BookTags).FirstOrDefaultAsync(b => b.Id == id);
+                if (book == null)
                 {
-                    Id = viewModel.Id,
-                    Title = viewModel.Title,
-                    Description = viewModel.Description,
-                    AuthorId = viewModel.AuthorId,
-                    PublisherId = viewModel.PublisherId,
-                    Price = viewModel.Price,
-                    CategoryId = viewModel.CategoryId
-                };
+                    return NotFound();
+                }
+
+                book.Title = viewModel.Title;
+                book.Description = viewModel.Description;
+                book.AuthorId = viewModel.AuthorId;
+                book.PublisherId = viewModel.PublisherId;
+                book.Price = viewModel.Price;
+                book.CategoryId = viewModel.CategoryId;
+
+                book.BookTags.Clear();
+                book.BookTags = viewModel.SelectedTagIds.Select(tagId => new BookTag { BookId = book.Id, TagId = tagId }).ToList();
 
                 try
                 {
@@ -283,14 +218,6 @@ namespace Ksiegarnia.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-
-            //viewModel.Categories = _context.Categories
-            //    .Select(c => new SelectListItem
-            //    {
-            //        Value = c.Id.ToString(),
-            //        Text = c.Name
-            //    })
-            //    .ToList();
 
             return View(viewModel);
         }

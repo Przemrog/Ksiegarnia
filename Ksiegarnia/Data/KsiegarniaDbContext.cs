@@ -21,6 +21,26 @@ namespace Ksiegarnia.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrdersItems { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<BookTag> BookTags { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<BookTag>()
+                .HasKey(bt => new { bt.BookId, bt.TagId });
+
+            modelBuilder.Entity<BookTag>()
+                .HasOne(bt => bt.Book)
+                .WithMany(b => b.BookTags)
+                .HasForeignKey(bt => bt.BookId);
+
+            modelBuilder.Entity<BookTag>()
+                .HasOne(bt => bt.Tag)
+                .WithMany(t => t.BookTags)
+                .HasForeignKey(bt => bt.TagId);
+        }
 
     }
 }

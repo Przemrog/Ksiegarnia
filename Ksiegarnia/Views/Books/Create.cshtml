@@ -26,7 +26,7 @@
                 <span asp-validation-for="AuthorId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PublisherId" class="control-label"></label>
+                <label asp-for="PublisherId" class="control-label">Publisher</label>
                 <select asp-for="PublisherId" class="form-control" asp-items="Model.Publishers"></select>
                 <span asp-validation-for="PublisherId" class="text-danger"></span>
             </div>
@@ -39,6 +39,11 @@
                 <label asp-for="CategoryId" class="control-label">Category</label>
                 <select asp-for="CategoryId" class="form-control" asp-items="Model.Categories"></select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedTagIds" class="control-label">Tags</label>
+                <select asp-for="SelectedTagIds" class="form-control" asp-items="Model.Tags" multiple="multiple"></select>
+                <span asp-validation-for="SelectedTagIds" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
