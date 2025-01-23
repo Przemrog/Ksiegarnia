@@ -66,6 +66,27 @@
                 <a asp-action="Create" asp-controller="Reviews" asp-route-bookId="@Model.Id" class="btn btn-primary">Add Review</a>
             }
         </div>
+    </div>
+</div>
 
+<hr />
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <h3>Similar Books</h3>
+        <div class="row">
+            @foreach (var similarBook in (List<Ksiegarnia.Models.Book>)ViewData["SimilarBooks"])
+            {
+                <div class="col-md-3">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">@similarBook.Title</h5>
+                            <p class="card-text">@similarBook.Description</p>
+                            <a asp-action="Details" asp-route-id="@similarBook.Id" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>

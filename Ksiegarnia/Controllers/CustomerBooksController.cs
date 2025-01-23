@@ -2,6 +2,8 @@
 using Ksiegarnia.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Ksiegarnia.Controllers
@@ -44,7 +46,6 @@ namespace Ksiegarnia.Controllers
             return View(await books.ToListAsync());
         }
 
-
         // GET: CustomerBooks/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -63,7 +64,37 @@ namespace Ksiegarnia.Controllers
             ViewData["AverageRating"] = book.Reviews.Any() ? book.Reviews.Average(r => r.Rating) : 0;
             ViewData["ReviewCount"] = book.Reviews.Count;
 
+            var similarBooks = GetSimilarBooks(book);
+            ViewData["SimilarBooks"] = similarBooks;
+
             return View(book);
+        }
+
+        private List<Book> GetSimilarBooks(Book book)
+        {
+            var allBooks = _context.Books.Include(b => b.BookTags).ThenInclude(bt => bt.Tag).ToList();
+            var bookTags = book.BookTags.Select(bt => bt.TagId).ToHashSet();
+
+            var similarBooks = allBooks
+                .Where(b => b.Id != book.Id)
+                .Select(b => new
+                {
+                    Book = b,
+                    JaccardIndex = CalculateJaccardIndex(bookTags, b.BookTags.Select(bt => bt.TagId).ToHashSet())
+                })
+                .OrderByDescending(b => b.JaccardIndex)
+                .Take(4)
+                .Select(b => b.Book)
+                .ToList();
+
+            return similarBooks;
+        }
+
+        private double CalculateJaccardIndex(HashSet<int> set1, HashSet<int> set2)
+        {
+            var intersection = set1.Intersect(set2).Count();
+            var union = set1.Union(set2).Count();
+            return (double)intersection / union;
         }
     }
 }
