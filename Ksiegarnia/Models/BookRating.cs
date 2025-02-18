@@ -3,6 +3,6 @@
 public class BookRating
 {
     [KeyType(count: 10000)]
-    public uint BookId { get; set; }
+    public uint TagId { get; set; }
     public float Label { get; set; }
 }

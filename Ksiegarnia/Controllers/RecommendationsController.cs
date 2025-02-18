@@ -39,19 +39,20 @@ public class RecommendationsController : Controller
         }
 
         var reviewedBookIds = userReviews.Select(r => r.BookId).ToHashSet();
+        var bookTags = await _context.BookTags.Where(bt => reviewedBookIds.Contains(bt.BookId)).ToListAsync();
 
-        var bookRatings = userReviews.Select(r => new BookRating
+        var reviewedTags = bookTags.Select(bt => new BookRating
         {
-            BookId = (uint)r.BookId,
-            Label = (float)r.Rating
+            TagId = (uint)bt.TagId,
+            Label = (float)userReviews.First(r => r.BookId == bt.BookId).Rating
         }).ToList();
 
-        var trainingData = _mlContext.Data.LoadFromEnumerable(bookRatings);
+        var trainingData = _mlContext.Data.LoadFromEnumerable(reviewedTags);
 
         var options = new MatrixFactorizationTrainer.Options
         {
-            MatrixColumnIndexColumnName = nameof(BookRating.BookId),
-            MatrixRowIndexColumnName = nameof(BookRating.BookId),
+            MatrixColumnIndexColumnName = nameof(BookRating.TagId),
+            MatrixRowIndexColumnName = nameof(BookRating.TagId),
             LabelColumnName = nameof(BookRating.Label),
             NumberOfIterations = 20,
             ApproximationRank = 100,
@@ -68,17 +69,21 @@ public class RecommendationsController : Controller
             .Select(b => new
             {
                 Book = b,
-                Score = predictionEngine.Predict(new BookRating { BookId = (uint)b.Id }).Score
+                Score = b.BookTags.Sum(bt => predictionEngine.Predict(new BookRating { TagId = (uint)bt.TagId }).Score),
+                Reason = b.BookTags
+                    .OrderByDescending(bt => predictionEngine.Predict(new BookRating { TagId = (uint)bt.TagId }).Score)
+                    .FirstOrDefault()?.Tag.Name
             })
             .OrderByDescending(b => b.Score)
             .Take(5)
-            .Select(b => b.Book)
             .ToList();
 
-        ViewData["RecommendedBooks"] = recommendedBooks;
+        ViewData["RecommendedBooks"] = recommendedBooks.Select(rb => rb.Book).ToList();
+        ViewData["RecommendationReasons"] = recommendedBooks.ToDictionary(rb => rb.Book.Id, rb => rb.Reason);
 
         return View("Index");
     }
+
 }
 
 public class BookRatingPrediction

@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Recommendations";
+    var recommendationReasons = ViewData["RecommendationReasons"] as Dictionary<int, string>;
 }
 
 <h1>Recommendations</h1>
@@ -23,6 +24,7 @@ else
                     <div class="card-body">
                         <h5 class="card-title">@book.Title</h5>
                         <p class="card-text">@book.Description</p>
+                        <p class="card-text text-muted">Because you like books of <strong>@recommendationReasons[book.Id]</strong> theme</p>
                         <a asp-action="Details" asp-controller="CustomerBooks" asp-route-id="@book.Id" class="btn btn-primary">View Details</a>
                     </div>
                 </div>
