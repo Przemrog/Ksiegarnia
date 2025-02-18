@@ -1,9 +1,8 @@
-﻿namespace Ksiegarnia.Models
+﻿using Microsoft.ML.Data;
+
+public class BookRating
 {
-    public class BookRating
-    {
-        public float UserId { get; set; }
-        public float BookId { get; set; }
-        public float Label { get; set; }
-    }
+    [KeyType(count: 10000)]
+    public uint BookId { get; set; }
+    public float Label { get; set; }
 }

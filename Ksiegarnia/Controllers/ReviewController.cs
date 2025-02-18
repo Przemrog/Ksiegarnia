@@ -17,6 +17,23 @@ namespace Ksiegarnia.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> Index()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var userReviews = await _context.Reviews
+                .Include(r => r.Book)
+                .Where(r => r.UserId == userId)
+                .ToListAsync();
+
+            return View(userReviews);
+        }
+
+
         // GET: Reviews/Create
         public IActionResult Create(int bookId)
         {

@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Ksiegarnia.Models.Review>
+
+@{
+    ViewData["Title"] = "My Reviews";
+}
+
+<h1>My Reviews</h1>
+<hr />
+@if (!Model.Any())
+{
+    <p>You have not written any reviews yet.</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var review in Model)
+        {
+            <div class="col-md-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">@review.Book.Title</h5>
+                        <p class="card-text">Rating: @review.Rating</p>
+                        <a asp-action="Edit" asp-controller="Reviews" asp-route-id="@review.Id" class="btn btn-primary">Edit Review</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
