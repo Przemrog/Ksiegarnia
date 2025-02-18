@@ -1,0 +1,29 @@
+﻿   @model IEnumerable<Ksiegarnia.Models.Book>
+
+@{
+    ViewData["Title"] = "Recommendations";
+}
+
+<h1>Recommendations</h1>
+<hr />
+@if (ViewData["Message"] != null)
+{
+    <p>@ViewData["Message"]</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var book in (List<Ksiegarnia.Models.Book>)ViewData["RecommendedBooks"])
+        {
+            <div class="col-md-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">@book.Title</h5>
+                        <p class="card-text">@book.Description</p>
+                        <a asp-action="Details" asp-controller="CustomerBooks" asp-route-id="@book.Id" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
