@@ -4,49 +4,58 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Book Details</h1>
+<h1 class="text-primary">Book Details</h1>
 <hr />
-<div class="row">
-    <div class="col-md-6 offset-md-3">
-        <dl class="row">
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Title)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Title)
-            </dd>
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-            <dt class="col-sm-4">
-                Author
-            </dt>
-            <dd class="col-sm-8">
-                @Model.Author?.Name
-            </dd>
-            <dt class="col-sm-4">
-                Publisher
-            </dt>
-            <dd class="col-sm-8">
-                @Model.Publisher?.Name
-            </dd>
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Price)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Price)
-            </dd>
-            <dt class="col-sm-4">
-                Category
-            </dt>
-            <dd class="col-sm-8">
-                @Model.Category?.Name
-            </dd>
-        </dl>
-        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
-        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-lg border-0 rounded-3">
+            <div class="card-header bg-primary text-white text-center fw-bold">
+                Book Details
+            </div>
+            <div class="card-body p-4">
+                <dl class="row">
+                    <dt class="col-sm-4 fw-bold">
+                        @Html.DisplayNameFor(model => model.Title)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Title)
+                    </dd>
+                    <dt class="col-sm-4 fw-bold">
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+                    <dt class="col-sm-4 fw-bold">
+                        Author
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.Author?.Name
+                    </dd>
+                    <dt class="col-sm-4 fw-bold">
+                        Publisher
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.Publisher?.Name
+                    </dd>
+                    <dt class="col-sm-4 fw-bold">
+                        @Html.DisplayNameFor(model => model.Price)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Price)
+                    </dd>
+                    <dt class="col-sm-4 fw-bold">
+                        Category
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.Category?.Name
+                    </dd>
+                </dl>
+                <div class="text-center mt-3">
+                    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
