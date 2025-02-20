@@ -14,7 +14,6 @@
                 <thead>
                     <tr>
                         <th>Title</th>
-                        <th>Author</th>
                         <th>Count</th>
                         <th>Price</th>
                         <th>Total</th>
@@ -26,7 +25,6 @@
                     {
                         <tr>
                             <td>@item.Book.Title</td>
-                            <td>@item.Book.Author</td>
                             <td>@item.Count</td>
                             <td>@item.Book.Price</td>
                             <td>@(item.Book.Price * item.Count)</td>
@@ -46,8 +44,9 @@
             </div>
 
             <form asp-action="Checkout" asp-controller="Order" method="get">
-                <button type="submit" class="btn btn-primary">Checkout</button>
+                <button type="submit" class="btn btn-success">Checkout</button>
             </form>
+            <a asp-action="Index" asp-controller="CustomerBooks" class="btn btn-secondary">Back</a>
         </div>
     </div>
 }
