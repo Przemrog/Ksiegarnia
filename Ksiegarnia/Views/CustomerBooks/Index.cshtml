@@ -4,9 +4,8 @@
     var categories = ViewData["Categories"] as IEnumerable<Ksiegarnia.Models.Category>;
 }
 
-
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
         <h5 class="text-light bg-dark p-2 rounded">Filter by Category</h5>
         <div class="d-grid gap-2">
             <a asp-action="Index" class="btn btn-outline-warning" style="color: #000000;">All</a>
@@ -16,19 +15,18 @@
             }
         </div>
     </div>
-
-    <div class="col-md-9">
+    <div class="col-md-10">
         <div class="row">
             @foreach (var book in Model)
             {
-                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body text-center">
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
+                    <div class="card shadow-sm border-0 flex-fill d-flex flex-column">
+                        <div class="card-body text-center d-flex flex-column">
                             <h5 class="card-title text-dark">@book.Title</h5>
                             <p class="card-text text-muted">@book.Description</p>
                             <p><strong>Author:</strong> @book.Author?.Name</p>
                             <p class="text-success fw-bold">$@book.Price</p>
-                            <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-warning w-100">View Details</a>
+                            <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-warning mt-auto">View Details</a>
                         </div>
                     </div>
                 </div>

@@ -15,11 +15,20 @@ namespace Ksiegarnia.Controllers
         {
             _context = context;
         }
-        
-        public async Task<IActionResult> Index()
+
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Categories.ToListAsync());
+            var categories = from c in _context.Categories
+                             select c;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                categories = categories.Where(s => s.Name.Contains(searchString));
+            }
+
+            return View(await categories.ToListAsync());
         }
+
 
         public async Task<IActionResult> Details(int? id)
         {

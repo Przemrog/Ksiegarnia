@@ -17,6 +17,6 @@
         <input asp-for="Rating" class="form-control" type="number" step="0.5" min="0.5" max="5" />
         <span asp-validation-for="Rating" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Save</button>
-    <a asp-action="Details" asp-controller="CustomerBooks" asp-route-id="@Model.BookId" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-warning btn-sm">Save</button>
+    <a asp-action="Details" asp-controller="CustomerBooks" asp-route-id="@Model.BookId" class="btn btn-secondary btn-sm">Cancel</a>
 </form>

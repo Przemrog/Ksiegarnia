@@ -50,10 +50,19 @@
                     <dd class="col-sm-8">
                         @Model.Category?.Name
                     </dd>
+                    <dt class="col-sm-4 fw-bold">
+                        Tags
+                    </dt>
+                    <dd class="col-sm-8">
+                        @foreach (var tag in Model.BookTags.Select(bt => bt.Tag))
+                        {
+                            <span class="badge bg-secondary">@tag.Name</span>
+                        }
+                    </dd>
                 </dl>
                 <div class="text-center mt-3">
-                    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
-                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Index" class="btn btn-secondary btn-sm">Back to List</a>
                 </div>
             </div>
         </div>

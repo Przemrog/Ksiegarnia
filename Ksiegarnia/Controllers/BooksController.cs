@@ -38,7 +38,7 @@ namespace Ksiegarnia.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books.Include(b => b.Category).Include(b => b.Author).Include(b => b.Publisher)
+            var book = await _context.Books.Include(b => b.Category).Include(b => b.Author).Include(b => b.Publisher).Include(b => b.BookTags).ThenInclude(bt => bt.Tag)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (book == null)
             {
