@@ -102,6 +102,7 @@ namespace Ksiegarnia.Controllers
                     PublisherId = viewModel.PublisherId,
                     Price = viewModel.Price,
                     CategoryId = viewModel.CategoryId,
+                    ImageUrl = viewModel.ImageUrl,
                     BookTags = viewModel.SelectedTagIds.Select(tagId => new BookTag { TagId = tagId }).ToList()
                 };
 
@@ -156,6 +157,7 @@ namespace Ksiegarnia.Controllers
                         Text = c.Name
                     })
                     .ToList(),
+                ImageUrl = book.ImageUrl,
                 SelectedTagIds = book.BookTags.Select(bt => bt.TagId).ToList(),
                 Tags = _context.Tags
                     .Select(t => new SelectListItem
@@ -196,6 +198,7 @@ namespace Ksiegarnia.Controllers
                 book.PublisherId = viewModel.PublisherId;
                 book.Price = viewModel.Price;
                 book.CategoryId = viewModel.CategoryId;
+                book.ImageUrl = viewModel.ImageUrl;
 
                 book.BookTags.Clear();
                 book.BookTags = viewModel.SelectedTagIds.Select(tagId => new BookTag { BookId = book.Id, TagId = tagId }).ToList();

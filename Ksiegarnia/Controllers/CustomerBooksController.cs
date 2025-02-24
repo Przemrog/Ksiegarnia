@@ -63,6 +63,7 @@ namespace Ksiegarnia.Controllers
 
             ViewData["AverageRating"] = book.Reviews.Any() ? book.Reviews.Average(r => r.Rating) : 0;
             ViewData["ReviewCount"] = book.Reviews.Count;
+            ViewData["ImageUrl"] = book.ImageUrl;
 
             var similarBooks = GetSimilarBooks(book);
             ViewData["SimilarBooks"] = similarBooks;

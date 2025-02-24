@@ -60,6 +60,9 @@
                         }
                     </dd>
                 </dl>
+                <div>
+                    <img src="@ViewData["ImageUrl"]" alt="Book Image" class="img-fluid" />
+                </div>
                 <div class="text-center mt-3">
                     <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning btn-sm">Edit</a>
                     <a asp-action="Index" class="btn btn-secondary btn-sm">Back to List</a>

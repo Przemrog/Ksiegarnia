@@ -22,6 +22,7 @@ namespace Ksiegarnia.Models
         public Category Category { get; set; }
         public ICollection<Review> Reviews { get; set; }
         public ICollection<BookTag> BookTags { get; set; }
+        public string ImageUrl { get; set; }
 
     }
 }

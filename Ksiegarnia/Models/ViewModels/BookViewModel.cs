@@ -22,6 +22,7 @@ namespace Ksiegarnia.Models.ViewModels
         public IEnumerable<SelectListItem> Categories { get; set; }
         public List<int> SelectedTagIds { get; set; }
         public IEnumerable<SelectListItem> Tags { get; set; }
+        public string ImageUrl { get; set; }
     }
 
 }
