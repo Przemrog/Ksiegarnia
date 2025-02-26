@@ -43,8 +43,8 @@
                 <span class="font-weight-bold">@ViewBag.TotalPrice</span>
             </div>
 
-            <form asp-action="Checkout" asp-controller="Order" method="get">
-                <button type="submit" class="btn btn-success">Checkout</button>
+            <form asp-action="CreateCheckoutSession" asp-controller="Order" method="post">
+                <button type="submit" class="btn btn-primary">Pay with Stripe</button>
             </form>
             <a asp-action="Index" asp-controller="CustomerBooks" class="btn btn-secondary">Back</a>
         </div>

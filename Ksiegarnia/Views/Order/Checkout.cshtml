@@ -1,4 +1,5 @@
 ﻿@model Ksiegarnia.Models.Order
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 
 @{
     ViewData["Title"] = "Checkout";
@@ -48,3 +49,35 @@
     <button type="submit" class="btn btn-success">Place Order</button>
     <a asp-action="Index" asp-controller="Cart" class="btn btn-secondary">Back to Cart</a>
 </form>
+
+<form id="payment-form">
+    <button id="checkout-button" class="btn btn-primary">Pay with Stripe</button>
+</form>
+
+@section Scripts {
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        var stripe = Stripe('@Configuration["Stripe:PublishableKey"]');
+        var checkoutButton = document.getElementById('checkout-button');
+
+        checkoutButton.addEventListener('click', function () {
+            fetch('/api/payment/create-checkout-session', {
+                method: 'POST',
+            })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (sessionId) {
+                return stripe.redirectToCheckout({ sessionId: sessionId.id });
+            })
+            .then(function (result) {
+                if (result.error) {
+                    alert(result.error.message);
+                }
+            })
+            .catch(function (error) {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+}
